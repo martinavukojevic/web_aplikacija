@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="neupisani-predmeti">
+        <h2>Neupisani predmeti:</h2>
+        {% for predmet in neupisani_predmeti %}
+            <div class="predmet">
+                <div class="predmet-info">
+                    {{ predmet.name }}
+                    {% if student.status == 'red' %}
+                        | Semestar: {{ predmet.sem_red }}
+                    {% else %}
+                        | Semestar: {{ predmet.sem_izv }}
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="upisani-predmeti">
+        <h2>Upisani predmeti:</h2>
+        {% for predmet in upisani_predmeti %}
+            <div class="predmet">
+                <div class="predmet-info">
+                    {{ predmet.name }}
+                    {% if student.status == 'red' %}
+                        | Semestar: {{ predmet.sem_red }}
+                    {% else %}
+                        | Semestar: {{ predmet.sem_izv }}
+                    {% endif %}
+                </div>
+                <div class="predmet-actions">
+                    {% if user_obj_logirani.role == 'stu' %}
+                        {% if predmet.id in polozeni_predmeti %}
+                            [Položen] &#10004;
+                        {% elif predmet.id in nepolozeni_predmeti %}
+                            [Izgubio potpis] &#x2717;
+                        {% endif %}
+                    {% elif user_obj_logirani.role == 'prof' %}
+                        <a href="{% url 'polozioPredmet' user_id=user_id predmet_id=predmet.id %}" class="button">Položio</a>
+                        <a href="{% url 'izgubioPredmet' user_id=user_id predmet_id=predmet.id %}" class="button">Izgubio potpis</a>
+                        {% if predmet.id in polozeni_predmeti %}
+                            [Položen] &#10004;
+                        {% elif predmet.id in nepolozeni_predmeti %}
+                            [Izgubio potpis] &#x2717;
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="additional-links">
+    <a href="{% url 'predmetiOdProfesora' user_id=user_obj_logirani.id %}" class="button">Predmeti kojima je profesor nositelj uz detalje</a>
+</div>
+
+<a href="{% url 'home' user_id %}" class="button">Natrag na home</a>
+
+<style>
+    .container {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px;
+    }
+    .neupisani-predmeti, .upisani-predmeti {
+        width: 48%;
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .predmet {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+    .predmet-info {
+        flex: 1;
+    }
+    .predmet-actions {
+        text-align: right;
+    }
+    .predmet a.button {
+        display: inline-block;
+        background-color: #4CAF50;
+        color: white;
+        padding: 5px 10px;
+        margin-top: 5px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+    .predmet a.button:hover {
+        background-color: #45a049;
+    }
+    .additional-links {
+        margin-top: 20px;
+        text-align: center;
+    }
+    .additional-links a.button {
+        display: inline-block;
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        margin: 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+    .additional-links a.button:hover {
+        background-color: #45a049;
+    }
+</style>
+{% endblock %}

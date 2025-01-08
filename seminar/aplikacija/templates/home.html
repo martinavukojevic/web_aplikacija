@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Hello {{ username }}!</h1>
+<h2>Your role is {{ role }}</h2>
+{% if role == 'profesor' %}
+    <a href="{% url 'predmetiOdProfesora' user_id=user_id %}">Predmeti profesora</a> &nbsp &nbsp 
+    <a href="{% url 'upisniListoviAdm' %}">Upisni listovi</a> &nbsp &nbsp
+{% endif %}
+
+{% if role == 'administrator' %}
+    <a href="{% url 'predmetiLista' %}">Lista predmeta</a>  &nbsp &nbsp 
+    <a href="{% url 'dodajPredmet' %}">Dodaj novi predmet</a>   &nbsp &nbsp 
+    <a href="{% url 'dajPredmetProfesoru' %}">Dodijeli predmet profesoru</a>    &nbsp &nbsp 
+    <a href="{% url 'studentiLista' %}">Lista studenata</a> &nbsp &nbsp 
+    <a href="{% url 'dodajStudenta' %}">Dodaj studenta</a>  &nbsp &nbsp 
+    <a href="{% url 'profesoriLista' %}">Lista profesora</a> &nbsp &nbsp 
+    <a href="{% url 'dajPredmetProfesoru' %}">Dodijeli predmet profesoru</a> &nbsp &nbsp 
+    <a href="{% url 'dodajProfesora' %}">Dodaj profesora</a> &nbsp &nbsp
+    <a href="{% url 'upisniListoviAdm' %}">Upisni listovi</a> &nbsp &nbsp
+{% endif %}
+
+{% if role == 'student' %}
+    <a href="{% url 'upisniList' user_id=user_id %}">Upisni List</a> &nbsp &nbsp
+    <a href="{% url 'filtriraj_predmete' %}">Filtriraj predmete</a>
+{% endif %}
+<a href="{% url 'logout' %}">Logout</a>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        flex-direction: column;
+    }
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    a {
+        display: inline-block;
+        margin: 10px 0;
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        text-align: center;
+    }
+    a:hover {
+        background-color: #45a049;
+    }
+</style>
+
+{% endblock %}

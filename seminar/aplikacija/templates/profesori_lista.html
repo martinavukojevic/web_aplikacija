@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="profesori-container">
+    <div class="profesori-list">
+        {% for profesor in profesori %}
+        <div class="profesor">
+            <div class="profesor-info">
+                <strong>Ime:</strong> {{ profesor.username }}<br>
+                <strong>Email:</strong> {{ profesor.email }}
+            </div>
+            <div class="profesor-actions">
+                <a href="{% url 'editProfesora' profesor.id %}" class="button">Edit</a>
+                <a href="{% url 'dajPredmetProfesoru' %}" class="button">Dodaj predmet</a>
+            </div>
+            <hr>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="actions">
+        <a href="{% url 'dodajProfesora' %}" class="button">Dodaj profesora</a>
+        <a href="{% url 'home' user_id %}" class="button">Natrag na home</a>
+    </div>
+</div>
+
+<style>
+    .profesori-container {
+        padding: 20px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    .profesori-list {
+        margin-bottom: 20px;
+    }
+    .profesor {
+        margin-bottom: 20px;
+    }
+    .profesor-info {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+    .profesor-info strong {
+        display: block;
+        margin-bottom: 5px;
+    }
+    .profesor-actions {
+        text-align: right;
+        margin-top: 10px;
+    }
+    .profesor-actions a.button {
+        display: inline-block;
+        background-color: #4CAF50;
+        color: white;
+        padding: 5px 10px;
+        margin-top: 5px;
+        margin-right: 5px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+    .profesor-actions a.button:hover {
+        background-color: #45a049;
+    }
+    .actions {
+        text-align: center;
+        margin-top: 20px;
+    }
+    .actions a.button {
+        display: inline-block;
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        margin: 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+    .actions a.button:hover {
+        background-color: #45a049;
+    }
+    hr {
+        border: none;
+        height: 1px;
+        background: #ddd;
+        margin: 10px 0;
+    }
+</style>
+{% endblock %}

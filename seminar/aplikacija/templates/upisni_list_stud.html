@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="neupisani-predmeti">
+        <h2>Neupisani predmeti:</h2>
+        {% for predmet in neupisani_predmeti %}
+            <div class="predmet">
+                <div class="predmet-info">
+                    {{predmet.name}}
+                    {% if student.status == 'red' %}
+                        | Semestar: {{predmet.sem_red}}
+                    {% endif %}
+                    {% if student.status == 'izv' %}
+                        | Semestar: {{predmet.sem_izv}}
+                    {% endif %}
+                </div>
+                <div class="predmet-actions">
+                    <a href="{% url 'upisiPredmet' user_id=user_id predmet_id=predmet.id %}" class="button">Upiši</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="upisani-predmeti">
+        <h2>Upisani predmeti:</h2>
+        {% for predmet in upisani_predmeti %}
+            <div class="predmet">
+                <div class="predmet-info">
+                    {{predmet.name}}
+                    {% if student.status == 'red' %}
+                        | Semestar: {{predmet.sem_red}}
+                    {% endif %}
+                    {% if student.status == 'izv' %}
+                        | Semestar: {{predmet.sem_izv}}
+                    {% endif %}
+                </div>
+                <div class="predmet-actions">
+                    {% if predmet.id not in polozeni_predmeti and predmet.id not in nepolozeni_predmeti %}
+                    <a href="{% url 'ukloniPredmet' user_id=user_id predmet_id=predmet.id %}" class="button">Ukloni</a>
+                    {% endif %}
+                    {% if predmet.id in polozeni_predmeti %}
+                        [Polozen] &#10004;
+                    {% elif predmet.id in nepolozeni_predmeti %}
+                        [Izgubio potpis] &#x2717;
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<a href="{% url 'home' user_id %}" class="button">Natrag na home</a>
+
+<style>
+    .container {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px;
+    }
+    .neupisani-predmeti, .upisani-predmeti {
+        width: 48%;
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .predmet {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+    .predmet-info {
+        flex: 1;
+    }
+    .predmet-actions {
+        text-align: right;
+    }
+    .predmet a.button {
+        display: inline-block;
+        background-color: #4CAF50;
+        color: white;
+        padding: 5px 10px;
+        margin-top: 5px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+    .predmet a.button:hover {
+        background-color: #45a049;
+    }
+</style>
+{% endblock %}

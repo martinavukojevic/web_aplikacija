@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="neupisani-predmeti">
+        <h2>Neupisani predmeti:</h2>
+        {% for predmet in neupisani_predmeti %}
+            <div class="predmet">
+                <div class="predmet-info">
+                    {{predmet.name}}
+                    {% if student.status == 'red' %}
+                        | Semestar: {{predmet.sem_red}}
+                    {% endif %}
+                    {% if student.status == 'izv' %}
+                        | Semestar: {{predmet.sem_izv}}
+                    {% endif %}
+                </div>
+                <div class="predmet-actions">
+                    <a href="{% url 'upisiPredmetAdm' user_id=user_id predmet_id=predmet.id %}" class="button">Upiši</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="upisani-predmeti">
+        <h2>Upisani predmeti:</h2>
+        {% for predmet in upisani_predmeti %}
+            <div class="predmet">
+                <div class="predmet-info">
+                    {{predmet.name}}
+                    {% if student.status == 'red' %}
+                        | Semestar: {{predmet.sem_red}}
+                    {% endif %}
+                    {% if student.status == 'izv' %}
+                        | Semestar: {{predmet.sem_izv}}
+                    {% endif %}
+                </div>
+                <div class="predmet-actions">
+                    {% if predmet.id not in polozeni_predmeti and predmet.id not in nepolozeni_predmeti %}
+                        <a href="{% url 'ukloniPredmetAdm' user_id=user_id predmet_id=predmet.id %}" class="button">Ukloni</a>
+                    {% endif %}
+                    {% if predmet.id in polozeni_predmeti %}
+                        [Položen] &#10004;
+                    {% elif predmet.id in nepolozeni_predmeti %}
+                        [Izgubio potpis] &#x2717;
+                    {% endif %}
+                    <a href="{% url 'polozioPredmetAdm' user_id=user_id predmet_id=predmet.id %}" class="button">Položio</a>
+                    <a href="{% url 'izgubioPredmetAdm' user_id=user_id predmet_id=predmet.id %}" class="button">Izgubio potpis</a>
+                    <a href="{% url 'studentiNaPredmetu1' predmet_id=predmet.id %}" class="button">Prikaži sve studente</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="additional-links">
+    <a href="{% url 'studentiLista' %}" class="button">Popis studenata</a>
+    <a href="{% url 'profesoriLista' %}" class="button">Popis profesora</a>
+    <a href="{% url 'predmetiLista' %}" class="button">Popis predmeta</a>
+</div>
+
+<a href="{% url 'home' user_id %}" class="button">Natrag na home</a>
+
+<style>
+    .container {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px;
+    }
+    .neupisani-predmeti, .upisani-predmeti {
+        width: 48%;
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .predmet {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+    .predmet-info {
+        flex: 1;
+    }
+    .predmet-actions {
+        text-align: right;
+    }
+    .predmet a.button {
+        display: inline-block;
+        background-color: #4CAF50;
+        color: white;
+        padding: 5px 10px;
+        margin-top: 5px;
+        margin-left: 5px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+    .predmet a.button:hover {
+        background-color: #45a049;
+    }
+    .additional-links {
+        margin-top: 20px;
+        text-align: center;
+    }
+    .additional-links a.button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        margin: 5px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+    .additional-links a.button:hover {
+        background-color: #45a049;
+    }
+</style>
+{% endblock %}

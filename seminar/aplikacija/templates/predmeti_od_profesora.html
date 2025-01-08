@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Lista predmeta</h2>
+<div class="predmeti-lista">
+    {% for predmet in predmeti %}
+    <div class="predmet">
+        <p><strong>{{predmet.name}}</strong></p>
+        <div class="actions">
+            <a href="{% url 'studentiNaPredmetu2' predmet.id %}">Popis svih studenata predmeta</a> &nbsp 
+            <a href="{% url 'studKojiSuUpisali' predmet.id %}">Studenti koji su upisali predmet</a> &nbsp 
+            <a href="{% url 'studKojiSuPolozili' predmet.id %}">Studenti koji su polozili predmet</a> &nbsp 
+            <a href="{% url 'studKojiSuIzgPotp' predmet.id %}">Studenti koji su izgubili potpis</a> &nbsp 
+        </div>
+        <hr>
+    </div>
+    {% endfor %}
+</div>
+<div class="links">
+    <a href="{% url 'home' user_id=user_id %}">Natrag</a>
+</div>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 20px;
+    }
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .predmeti-lista {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 800px;
+        margin: 20px auto;
+    }
+    .predmet {
+        margin-bottom: 20px;
+        padding: 15px;
+        border-bottom: 1px solid #ddd;
+    }
+    .predmet p {
+        margin: 5px 0;
+    }
+    .actions {
+        margin-top: 10px;
+    }
+    .actions a {
+        display: inline-block;
+        background-color: #4CAF50;
+        color: white;
+        padding: 8px 12px;
+        text-decoration: none;
+        border-radius: 4px;
+        margin: 5px 0;
+    }
+    .actions a:hover {
+        background-color: #45a049;
+    }
+    .links {
+        text-align: center;
+        margin-top: 20px;
+    }
+    .links a {
+        display: inline-block;
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 4px;
+    }
+    .links a:hover {
+        background-color: #45a049;
+    }
+</style>
+
+{% endblock %}

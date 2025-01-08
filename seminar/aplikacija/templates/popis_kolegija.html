@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <title>Popis kolegija</title>
+</head>
+<body>
+    <h2>Popis kolegija</h2>
+    <ul>
+        {% for kolegij in kolegiji %}
+            <li>
+                {{ kolegij.name }}
+                {% if user.upisi_set.filter(predmet=kolegij).exists %}
+                    <a href="{% url 'ispisi_kolegij' kolegij.pk %}">Ispiši</a>
+                {% else %}
+                    <a href="{% url 'upisi_kolegij' kolegij.pk %}">Upiši</a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'odjava' %}">Odjava</a>
+</body>
+</html>
